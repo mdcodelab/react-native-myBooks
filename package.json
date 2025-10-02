@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "expo": "~54.0.10",
     "expo-constants": "~18.0.9",
     "expo-linking": "~8.0.8",
