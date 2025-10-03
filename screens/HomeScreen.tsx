@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
 import BookCard from '../components/BookCard';
 import { getAllBooks } from '../api/functions';
 import AddButton from '../components/AddButton';
+import AddBookScreen from './AddBookScreen';
 
 function HomeScreen() {
   const [books, setBooks] = React.useState([]);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
     getAllBooks(
@@ -14,12 +16,13 @@ function HomeScreen() {
     );
   }, []);
 
-  console.log(books);
+  function onPress(){
+    setModalVisible(!modalVisible);
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
-      <AddButton />
       <FlatList
         data={books}
         keyExtractor={(item) => item.id}
@@ -28,6 +31,10 @@ function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentList}
       />
+      <AddButton onPress={onPress}></AddButton>
+      <Modal animationType="slide" visible={modalVisible}>
+        <AddBookScreen onPress={onPress}/>
+      </Modal>
     </View>
   );
 }

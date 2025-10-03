@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 
-function AddButton() {
+function AddButton({onPress}) {
   return (
-    <TouchableOpacity style={styles.containerButton}>
+    <TouchableOpacity style={styles.containerButton} onPress={onPress}>
       <Text>
         <Entypo name="plus" size={24} color="black" />
       </Text>
@@ -16,11 +16,11 @@ export default AddButton;
 
 const styles = StyleSheet.create({
   containerButton: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     backgroundColor: "#fff",
     alignSelf: "center",
-    borderRadius: 15,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
