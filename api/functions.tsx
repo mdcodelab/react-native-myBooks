@@ -23,3 +23,16 @@ export const deleteBook = async (id: string) => {
     console.error("Error deleting book:", error);
   }
 };
+
+// POST book -add new book
+export const addBook = async (book: { title: string; 
+  author: string; description: string; }) => {
+  try {
+    const result = await axios.post(endpoint, book);
+    return result.data; 
+  } catch (error) {
+    console.error("Error adding book:", error);
+  }
+};
+
+// PUT book - edit book

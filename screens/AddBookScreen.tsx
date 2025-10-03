@@ -1,13 +1,25 @@
 import React from 'react';
-import { View, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import AddInputText from '../components/AddInputText';
 
 function AddBookScreen({onPress}) {
+  const [bookName, setBookName] = React.useState("");
+  const [authorName, setAuthorName] = React.useState("");
+  const [cover, setCover] = React.useState("");
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <AntDesign name="close" size={24} color="red" />
       </TouchableOpacity>
+      <View>
+        <Text style={styles.textTitle}>Add New Book</Text>
+        <Text></Text>
+        <AddInputText value={bookName} onChangeText={setBookName} placeholder={"Book name..."}></AddInputText>
+        <AddInputText value={authorName} onChangeText={setAuthorName} placeholder={"Author..."}></AddInputText>
+        <AddInputText value={cover} onChangeText={setCover} placeholder={"Cover image..."}></AddInputText>
+      </View>
       <View>
 
       </View>
@@ -26,6 +38,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     padding: 20
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center"
   },
 button: {
     position: "absolute",
