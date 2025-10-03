@@ -1,18 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { deleteBook } from '../api/functions';
 
-function BookCard() {
+function BookCard({book, books, setBooks}) {
+  const deleteBooks = (id: string) => {
+    Alert.alert("Are you sure you want to delete this book?");
+    deleteBook(id, (data)=>{
+      const newBooks = books.filter((item) => item.id !== id);
+      setBooks(newBooks);
+    }, (error) => {
+      console.log(error);
+    });
+  }
   return (
     <View style={styles.container}>
-    <Image source={require('../assets/icon.png')}
+    <Image source={{uri: book.cover}}
     style={styles.coverImage}></Image>
     <View style={styles.detailsContainer}>
-      <Text style={styles.author}>Author</Text>
+      <Text style={styles.author}>{book.name}</Text>
       <Text style={styles.price}>Price</Text>
     </View>
     <View style={styles.editDelete}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>deleteBooks(book.id)}>
         <AntDesign name="edit" size={24} color="green" />
       </TouchableOpacity>
       <TouchableOpacity>
@@ -29,6 +39,8 @@ export default BookCard;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    width: 250,
+    height: 120,
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
@@ -38,11 +50,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
     elevation: 5,
-    width: "25%"
   },
   coverImage: {
     width: '50%',
-    height: 120,
+    height: 100,
     borderRadius: 8,
     resizeMode: 'stretch',
   },
