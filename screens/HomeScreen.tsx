@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import BookCard from '../components/BookCard';
 import { getAllBooks } from '../api/functions';
+import AddButton from '../components/AddButton';
 
 function HomeScreen() {
   const [books, setBooks] = React.useState([]);
@@ -18,6 +19,7 @@ function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
+      <AddButton />
       <FlatList
         data={books}
         keyExtractor={(item) => item.id}
