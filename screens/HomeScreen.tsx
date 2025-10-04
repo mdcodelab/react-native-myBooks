@@ -10,10 +10,16 @@ function HomeScreen() {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
-    getAllBooks(
-      (data) => setBooks(data),
-      (error) => console.log(error)
-    );
+    const fetchBooks = async () => {
+      try {
+        const data = await getAllBooks();
+        setBooks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    fetchBooks();
   }, []);
 
   function onPress(){

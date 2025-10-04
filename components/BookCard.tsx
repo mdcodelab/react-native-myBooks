@@ -1,9 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { AntDesign } from '@expo/vector-icons';
 import { deleteBook } from '../api/functions';
 
-function BookCard({ book, books, setBooks }) {
+interface Book {
+  id: string;
+  name: string;
+  cover: string;
+}
+
+interface BookCardProps {
+  book: Book;
+  books: Book[];
+  setBooks: (books: Book[]) => void;
+}
+
+function BookCard({ book, books, setBooks }: BookCardProps) {
 
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -16,13 +28,16 @@ function BookCard({ book, books, setBooks }) {
           style: "destructive",
           onPress: async () => {
             try {
-              await deleteBook(id); // aici se apelează API-ul
+              console.log('Attempting to delete book with ID:', id);
+              const result = await deleteBook(id);
+              console.log('Delete result:', result);
+              
               const newBooks = books.filter((item) => item.id !== id); // scoți cartea din listă
               setBooks(newBooks);
               Alert.alert("Success", "Book deleted successfully");
             } catch (error) {
               console.error("Delete error:", error);
-              Alert.alert("Error", "Failed to delete book");
+              Alert.alert("Error", `Failed to delete book: ${error instanceof Error ? error.message : 'Unknown error'}`);
             }
           }
         }

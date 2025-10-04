@@ -3,14 +3,12 @@ import axios from "axios";
 const endpoint = "https://68dd13757cd1948060ac4c21.mockapi.io/booksstore";
 
 // GET all books
-export const getAllBooks = async (onSuccess: (data: any) => void, onError: (error: any) => void) => {
+export const getAllBooks = async () => {
   try {
     const result = await axios.get(endpoint);
-    onSuccess(result.data);
     return result.data;
   } catch (error) {
     console.log(error);
-    onError(error);
   }
 };
 
@@ -21,12 +19,13 @@ export const deleteBook = async (id: string) => {
     return result.data; 
   } catch (error) {
     console.error("Error deleting book:", error);
+    throw error; // Re-throw the error so it can be caught in the component
   }
 };
 
 // POST book -add new book
-export const addBook = async (book: { title: string; 
-  author: string; description: string; }) => {
+export const addBook = async (book: { name: string; 
+  cover: string;}) => {
   try {
     const result = await axios.post(endpoint, book);
     return result.data; 
