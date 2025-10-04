@@ -5,26 +5,36 @@ import { getAllBooks } from '../api/functions';
 import AddButton from '../components/AddButton';
 import AddBookScreen from './AddBookScreen';
 
+interface Book {
+  id: string;
+  name: string;
+  cover: string;
+}
+
 function HomeScreen() {
-  const [books, setBooks] = React.useState([]);
+  const [books, setBooks] = React.useState<Book[]>([]);
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const fetchBooks = async () => {
+    try {
+      const data = await getAllBooks();
+      setBooks(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   React.useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const data = await getAllBooks();
-        setBooks(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    
     fetchBooks();
   }, []);
 
-  function onPress(){
+  const onPress = () => {
+    // If modal is currently visible and we're about to close it, refresh the books list
+    if (modalVisible) {
+      fetchBooks();
+    }
     setModalVisible(!modalVisible);
-  }
+  };
 
   return (
     <View style={styles.container}>

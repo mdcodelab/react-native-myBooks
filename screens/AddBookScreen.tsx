@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import AddInputText from '../components/AddInputText';
-import { addBook, getAllBooks } from '../api/functions';
+import { addBook } from '../api/functions';
 
-function AddBookScreen({onPress}) {
+interface AddBookScreenProps {
+  onPress: () => void;
+}
+
+function AddBookScreen({onPress}: AddBookScreenProps) {
   const [name, setName] = React.useState("");
   const [cover, setCover] = React.useState("");
 
@@ -15,8 +19,7 @@ function AddBookScreen({onPress}) {
         cover: cover || "https://via.placeholder.com/150"
       }
       await addBook(newBook);
-      const updated = await getAllBooks();
-      
+      Alert.alert("New Book added");
       onPress();
     }
   
@@ -93,7 +96,6 @@ textButton: {
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#fff",
     width: 230
 }
 });
