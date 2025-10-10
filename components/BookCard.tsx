@@ -13,9 +13,10 @@ interface BookCardProps {
   book: Book;
   books: Book[];
   setBooks: (books: Book[]) => void;
+  handleEdit: () => void;
 }
 
-function BookCard({ book, books, setBooks }: BookCardProps) {
+function BookCard({ book, books, setBooks, handleEdit }: BookCardProps) {
 
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -53,7 +54,7 @@ function BookCard({ book, books, setBooks }: BookCardProps) {
         <Text style={styles.price}>Price</Text>
       </View>
       <View style={styles.editDelete}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleEdit}>
           <AntDesign name="edit" size={24} color="green" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleDelete(book.id)}>

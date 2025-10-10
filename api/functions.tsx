@@ -34,4 +34,13 @@ export const addBook = async (book: { name: string;
   }
 };
 
-// PUT book - edit book
+// edit book - edit book
+export const editBook = async(id: string, updatedBook: { name: string; cover: string; }) => {
+  try {
+    const response = await axios.put(`${endpoint}/${id}`, updatedBook);
+    return response.data;
+  } catch (error) {
+    console.error("Error editing book:", error);
+    throw error; // Re-throw the error so it can be caught in the component
+  }
+}

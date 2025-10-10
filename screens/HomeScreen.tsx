@@ -4,6 +4,8 @@ import BookCard from '../components/BookCard';
 import { getAllBooks } from '../api/functions';
 import AddButton from '../components/AddButton';
 import AddBookScreen from './AddBookScreen';
+import EditBookScreen from './EditBookScreen';
+import { editBook } from '../api/functions';
 
 interface Book {
   id: string;
@@ -14,6 +16,8 @@ interface Book {
 function HomeScreen() {
   const [books, setBooks] = React.useState<Book[]>([]);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [editModalVisible, setEditModalVisible] = React.useState(false);
+  const [selectedBook, setSelectedBook] = React.useState<Book | null>(null);
 
   const fetchBooks = async () => {
     try {
@@ -36,13 +40,27 @@ function HomeScreen() {
     setModalVisible(!modalVisible);
   };
 
+  async function handleEdit(item: Book) {
+    setSelectedBook(item);
+    setEditModalVisible(true);
+  }
+
+  const onEditPress = () => {
+    // If edit modal is currently visible and we're about to close it, refresh the books list
+    if (editModalVisible) {
+      fetchBooks();
+    }
+    setEditModalVisible(!editModalVisible);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
       <FlatList
         data={books}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <BookCard book={item} books={books} setBooks={setBooks}/>}
+        renderItem={({ item }) => <BookCard 
+        book={item} books={books} setBooks={setBooks} handleEdit={() => handleEdit(item)}/>}
         numColumns={1}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentList}
@@ -51,6 +69,15 @@ function HomeScreen() {
       <Modal animationType="slide" visible={modalVisible}>
         <AddBookScreen onPress={onPress}/>
       </Modal>
+      {selectedBook && (
+        <Modal animationType="slide" visible={editModalVisible}>
+          <EditBookScreen 
+            onPress={onEditPress} 
+            book={selectedBook} 
+            onBookUpdated={fetchBooks}
+          />
+        </Modal>
+      )}
     </View>
   );
 }
